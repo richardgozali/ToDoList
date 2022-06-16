@@ -34,10 +34,10 @@ class SecondViewController: UIViewController {
         if( nameTextField.text != "" || subTitleTextField.text != ""){
             let nama = nameTextField?.text ?? ""
             let subtitle = subTitleTextField?.text ?? ""
-            
+            let description = taskNotes.text ?? ""
             let newToDo = ToDo(
                 name: nama,
-                description: subtitle,
+                description: description,
                 subtitle: subtitle
             )
             listToDo.listtodo.append(newToDo)
