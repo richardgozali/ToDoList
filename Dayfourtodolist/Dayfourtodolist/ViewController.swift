@@ -9,19 +9,19 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     var userDefaults = UserDefaults.standard
-    var todoList : [ToDo] = []
+     var listToDo = ToDoList()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoList.count;
+        return listToDo.listtodo.count;
     }
     
     @IBAction func movePage(_ sender: Any) {
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(todoList), forKey:"songs")
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(listToDo), forKey:"TODO")
         let BlueVc =  UIStoryboard(name: "Main", bundle:nil).instantiateViewController(withIdentifier: "SecondViewController")
         self.navigationController?.pushViewController(BlueVc, animated: true)
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "toDoListCell") as! TableViewCell
-        cell.textLabel?.text = todoList[indexPath.row].name;
+        cell.textLabel?.text = listToDo.listtodo[indexPath.row].name;
         return cell
     }
     
@@ -32,9 +32,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         toDoListTable.dataSource = self
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: false)
-        if let data = UserDefaults.standard.value(forKey:"songs") as? Data {
-            let songs2 = try? PropertyListDecoder().decode(Array<ToDo>.self, from: data)
-            todoList = songs2 ?? []
+        if let data = UserDefaults.standard.value(forKey:"TODO") as? Data {
+            let songs2 = try? PropertyListDecoder().decode(ToDoList.self, from: data)
+            listToDo = songs2 ?? ToDoList()
         }
         // Do any additional setup after loading the view.
     }
@@ -57,7 +57,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
           if(editingStyle == .delete) {
             // handle delete (by removing the data from your array and updating the tableview)
-            self.todoList.remove(at: indexPath.row)
+              self.listToDo.listtodo.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
         
         }

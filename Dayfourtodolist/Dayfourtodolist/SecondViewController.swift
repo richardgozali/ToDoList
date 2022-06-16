@@ -13,7 +13,7 @@ class SecondViewController: UIViewController {
     @IBOutlet weak var taskNotes: UITextView!
     @IBOutlet weak var hasilLabel: UILabel!
     @IBOutlet weak var subTitleTextField: UITextField!
-    var todoList : [ToDo] = []
+    var listToDo = ToDoList()
     var userDefaults = UserDefaults.standard
      override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +22,9 @@ class SecondViewController: UIViewController {
          taskNotes.layer.borderColor = borderColor.cgColor
          taskNotes.layer.cornerRadius = 5.0
          
-         if let data = UserDefaults.standard.value(forKey:"songs") as? Data {
-             let songs2 = try? PropertyListDecoder().decode(Array<ToDo>.self, from: data)
-             todoList = songs2 ?? []
+         if let data = UserDefaults.standard.value(forKey:"TODO") as? Data {
+             let songs2 = try? PropertyListDecoder().decode(ToDoList.self, from: data)
+             listToDo = songs2 ?? ToDoList()
          }
         // Do any additional setup after loading the view.
     }
@@ -40,9 +40,9 @@ class SecondViewController: UIViewController {
                 description: subtitle,
                 subtitle: subtitle
             )
-            
-            todoList.append(newToDo)
-            UserDefaults.standard.set(try? PropertyListEncoder().encode(todoList), forKey:"songs")
+            listToDo.listtodo.append(newToDo)
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(listToDo), forKey:"TODO")
+        
             let BlueVc =  UIStoryboard(name: "Main", bundle:nil).instantiateViewController(withIdentifier: "ViewController")
             self.navigationController?.pushViewController(BlueVc, animated: true)
             
